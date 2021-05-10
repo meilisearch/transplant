@@ -240,6 +240,7 @@ mod test {
         assert!(!snapshot_path.path().join("data.ms.snapshot").exists());
     }
 
+    #[ignore]
     #[actix_rt::test]
     async fn test_loop() {
         let mut uuid_resolver = MockUuidResolverHandle::new();
