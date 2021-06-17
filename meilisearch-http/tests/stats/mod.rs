@@ -69,7 +69,7 @@ async fn stats() {
     assert!(response["lastUpdate"].as_str().unwrap() > last_update);
     assert_eq!(response["indexes"]["test"]["numberOfDocuments"], 2);
     assert_eq!(response["indexes"]["test"]["isIndexing"], false);
-    assert_eq!(response["indexes"]["test"]["fieldsDistribution"]["id"], 2);
-    assert_eq!(response["indexes"]["test"]["fieldsDistribution"]["name"], 1);
-    assert_eq!(response["indexes"]["test"]["fieldsDistribution"]["age"], 1);
+    assert_eq!(response["indexes"]["test"]["fieldDistribution"]["id"], 2);
+    assert_eq!(response["indexes"]["test"]["fieldDistribution"]["name"], 1);
+    assert_eq!(response["indexes"]["test"]["fieldDistribution"]["age"], 1);
 }

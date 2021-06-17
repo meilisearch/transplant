@@ -340,7 +340,7 @@ impl<S: IndexStore + Sync + Send> IndexActor<S> {
                 number_of_documents: index.number_of_documents(&rtxn)
                     .map_err(|e| IndexError::Internal(e.to_string()))?,
                 is_indexing: None,
-                fields_distribution: index.fields_distribution(&rtxn)?,
+                field_distribution: index.fields_distribution(&rtxn)?,
             })
         })
         .await?

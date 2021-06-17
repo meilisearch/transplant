@@ -61,7 +61,7 @@ pub struct IndexStats {
     /// index returns it, since it is the `UpdateStore` that knows what index is currently indexing. It is
     /// later set to either true or false, we we retrieve the information from the `UpdateStore`
     pub is_indexing: Option<bool>,
-    pub fields_distribution: FieldsDistribution,
+    pub field_distribution: FieldsDistribution,
 }
 
 #[derive(Clone)]
