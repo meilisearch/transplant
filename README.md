@@ -1,4 +1,10 @@
-# Transplant
+# [DEPRECATED] Transplant
+
+----
+
+⚠️ **This repository has been archived since its [integration into the official repository](https://github.com/meilisearch/MeiliSearch/pull/1421)**.
+
+----
 
 Transplant makes communication between the users and [Milli](https://github.com/meilisearch/milli) using HTTP. The final purpose of Transplant is to be merged into the current [MeiliSearch repository](https://github.com/meilisearch/MeiliSearch) so that users will enjoy the new search engine performance provided by Milli.
 
