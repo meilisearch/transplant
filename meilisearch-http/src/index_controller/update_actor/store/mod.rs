@@ -120,7 +120,7 @@ impl UpdateStore {
 
         let state = Arc::new(StateLock::from_state(State::Idle));
 
-        let (notification_sender, notification_receiver) = mpsc::channel(10);
+        let (notification_sender, notification_receiver) = mpsc::channel(1);
 
         Ok((
             Self {
@@ -151,10 +151,7 @@ impl UpdateStore {
         // Init update loop to perform any pending updates at launch.
         // Since we just launched the update store, and we still own the receiving end of the
         // channel, this call is guaranteed to succeed.
-        update_store
-            .notification_sender
-            .try_send(())
-            .expect("Failed to init update store");
+        let _ = update_store.notification_sender.try_send(());
 
         // We need a weak reference so we can take ownership on the arc later when we
         // want to close the index.
@@ -245,9 +242,8 @@ impl UpdateStore {
 
         txn.commit()?;
 
-        self.notification_sender
-            .blocking_send(())
-            .expect("Update store loop exited.");
+        let _ = self.notification_sender.try_send(());
+
         Ok(meta)
     }
 
