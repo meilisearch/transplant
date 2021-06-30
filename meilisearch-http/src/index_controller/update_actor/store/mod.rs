@@ -19,6 +19,7 @@ use log::error;
 use parking_lot::{Mutex, MutexGuard};
 use tokio::runtime::Handle;
 use tokio::sync::mpsc;
+use tokio::sync::mpsc::error::TrySendError;
 use uuid::Uuid;
 
 use codec::*;
@@ -146,12 +147,9 @@ impl UpdateStore {
         let update_store = Arc::new(update_store);
 
         // Send a first notification to trigger the process.
-        let _ = update_store.notification_sender.send(());
-
-        // Init update loop to perform any pending updates at launch.
-        // Since we just launched the update store, and we still own the receiving end of the
-        // channel, this call is guaranteed to succeed.
-        let _ = update_store.notification_sender.try_send(());
+        if let Err(TrySendError::Closed(())) = update_store.notification_sender.try_send(()) {
+            panic!("Failed to init update store");
+        }
 
         // We need a weak reference so we can take ownership on the arc later when we
         // want to close the index.
@@ -242,7 +240,9 @@ impl UpdateStore {
 
         txn.commit()?;
 
-        let _ = self.notification_sender.try_send(());
+        if let Err(TrySendError::Closed(())) = self.notification_sender.try_send(()) {
+            panic!("Update store loop exited");
+        }
 
         Ok(meta)
     }
